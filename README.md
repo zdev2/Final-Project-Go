@@ -4,12 +4,16 @@
 <p align="center">-------------------------------------------</p>
 &NewLine;
 &NewLine;
-<h2 align="center">-==Fitur Program==-</h2>
-  |a|b|
-  |:----------|---:|
-  |b|b|
+<p>
+  
+</p>
+
+
+
 <div align="center">
   <h2>Anggota Kelompok</h2>
   <p>------------------</p>
-  <p>Bagus Perwira        Rakryan Teja Abhimata</p>
+  &NewLine;
+  <p>Bagus Perwira&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Rakryan Teja Abhimata</p>
 </div>
+
