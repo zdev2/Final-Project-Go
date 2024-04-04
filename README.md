@@ -11,5 +11,5 @@
 <div align="center">
   <h2>Anggota Kelompok</h2>
   <p>------------------</p>
-  <a href="">Bagus Perwira</a><p>       </p><a href="">Rakryan Teja Abhimata</a>
+  <p>Bagus Perwira        Rakryan Teja Abhimata</p>
 </div>
