@@ -1,7 +1,5 @@
 package model
 
-import "time"
-
 type Barang struct {
 	KodeBarang string  `json:"kode_barang"`
 	Nama       string  `json:"nama"`

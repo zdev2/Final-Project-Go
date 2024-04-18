@@ -8,8 +8,8 @@ func RouteRetail(app *fiber.App) {
   retailGroup.Get("/barang/:id", GetBarangByID)
   retailGroup.Post("/barang", CreateBarang)
   retailGroup.Put("/barang/:id", UpdateBarang)
-  retailGroup.Put("/barang/stok/:id")
-  retailGroup.Delete("/barang/:id",
+  // retailGroup.Put("/barang/stok/:id")
+  // retailGroup.Delete("/barang/:id",)
 }
 
 func CreateBarang(app *fiber.app) error {
