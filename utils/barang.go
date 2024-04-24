@@ -18,3 +18,12 @@ func GetBarang() ([]model.Barang, error) {
 	var barang model.Barang
 	return barang.GetAll(config.Mysql.DB)
 }
+
+func GetBarangByID(id uint) (model.Barang, error) {
+	cars := model.Barang{
+		Model: model.Model{
+			ID: id,
+		},
+	}
+	return cars.GetByID(config.Mysql.DB)
+}
