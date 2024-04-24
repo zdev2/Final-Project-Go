@@ -1,5 +1,7 @@
 package model
 
+import "gorm.io/gorm"
+
 type Barang struct {
 	KodeBarang string  `json:"kode_barang"`
 	Nama       string  `json:"nama"`
@@ -9,4 +11,48 @@ type Barang struct {
 	Stok       uint    `json:"stok"`
 	Model
 	CreatedBy string `json:"created_by"`
+}
+
+func (br *Barang) Create(db *gorm.DB) error {
+	err := db.
+		Model(Barang{}).
+		Create(&br).
+		Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (br *Barang) GetAll(db *gorm.DB) ([]Barang, error) {
+	res := []Barang{}
+
+	err := db.
+		Model(Barang{}).
+		Find(&res).
+		Error
+
+	if err != nil {
+		return []Barang{}, err
+	}
+
+	return res, nil
+}
+
+func (br *Barang) GetByID(db *gorm.DB) (Barang, error) {
+	res := Barang{}
+
+	err := db.
+		Model(Barang{}).
+		Where("id = ?", br.Model.ID).
+		Take(&res).
+		Error
+
+	if err != nil {
+		return Barang{}, err
+	}
+
+	return res, nil
 }
