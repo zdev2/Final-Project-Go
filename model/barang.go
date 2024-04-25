@@ -56,3 +56,17 @@ func (br *Barang) GetByID(db *gorm.DB) (Barang, error) {
 
 	return res, nil
 }
+
+func (br *Barang) Update(db *gorm.DB) error {
+	err := db.
+		Model(&Barang{}).
+		Where("id = ?", br.Model.ID).
+		Updates(&br).
+		Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

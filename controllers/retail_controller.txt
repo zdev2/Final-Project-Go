@@ -13,9 +13,9 @@ import (
 TO DO:
    | Path              | Method | Deskripsi                                                            |
    | :---------------- | :----- | :------------------------------------------------------------------- |
-   | /barang           | GET    | Menampilkan data barang dengan limit 50 data terakhir                |
-   | /barang/{id}      | GET    | Menampilkan data barang per barang secara detail dengan histori stok |
-   | /barang           | POST   | Input data barang, beserta keterangan stok                           |
+   | /barang           | GET    | Menampilkan data barang dengan limit 50 data terakhir                | -
+   | /barang/{id}      | GET    | Menampilkan data barang per barang secara detail dengan histori stok | -
+   | /barang           | POST   | Input data barang, beserta keterangan stok                           | -
    | /barang/{id}      | PUT    | Update data barang                                                   |
    | /barang/stok/{id} | PUT    | Update data stok barang saja                                         |
    | /barang/{id}      | DELETE | Hapus barang, beserta histori stok                                   |
@@ -29,13 +29,20 @@ func RouteRetail(app *fiber.App) {
 	retailGroup.Get("/barang", GetBarang)
 	retailGroup.Get("/barang/:id", GetBarangByID)
 	retailGroup.Post("/barang", CreateBarang)
-	// retailGroup.Put("/barang/:id", UpdateBarang)
+	retailGroup.Put("/barang/:id", UpdateBarang)
 	// retailGroup.Put("/barang/stok/:id")
 	// retailGroup.Delete("/barang/:id",)
 
 	//Penjualan
+	retailGroup.Get("/penjualan")
+	retailGroup.Get("/penjualan/:id")
+	retailGroup.Post("/penjualan")
 
-	//Stok
+	//Kode Diskon
+	retailGroup.Get("/kode-diskon")
+	retailGroup.Get("/kode-diskon/:id")
+	retailGroup.Get("/kode-diskon/get-by")
+
 }
 
 func CreateBarang(c *fiber.Ctx) error {
@@ -52,7 +59,7 @@ func CreateBarang(c *fiber.Ctx) error {
 	if err := c.BodyParser(req); err != nil {
 		return c.Status(fiber.StatusBadRequest).
 			JSON(map[string]any{
-				"message": "Body Not Valid",
+				"message": "Invalid Body",
 			})
 
 	}
@@ -97,7 +104,7 @@ func GetBarangByID(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(
 			map[string]any{
-				"message": "ID Not Valid",
+				"message": "Invalid ID",
 			},
 		)
 	}
@@ -111,6 +118,36 @@ func GetBarangByID(c *fiber.Ctx) error {
 				},
 			)
 		}
+	}
+
+	return c.Status(fiber.StatusOK).JSON(
+		map[string]any{
+			"data":    dataBarang,
+			"message": "Success",
+		},
+	)
+}
+
+func UpdateBarang(c *fiber.Ctx) error {
+	barangID, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid ID",
+		})
+	}
+
+	var updatedBarang model.Barang
+	if err := c.BodyParser(&updatedBarang); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request body",
+		})
+	}
+
+	dataBarang, err := utils.UpdateBarang(uint(barangID), updatedBarang)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Failed to update item",
+		})
 	}
 
 	return c.Status(fiber.StatusOK).JSON(
