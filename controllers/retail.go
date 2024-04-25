@@ -14,9 +14,9 @@ func RouteRetail(app *fiber.App) {
 	// retailGroup.Delete("/barang/:id",)
 
 	//Penjualan
-	retailGroup.Get("/penjualan")
-	retailGroup.Get("/penjualan/:id")
-	retailGroup.Post("/penjualan")
+	// retailGroup.Get("/penjualan")
+	// retailGroup.Get("/penjualan/:id")
+	// retailGroup.Post("/penjualan")
 
 	//Kode Diskon
 	retailGroup.Get("/kode-diskon", GetKodeDiskon)

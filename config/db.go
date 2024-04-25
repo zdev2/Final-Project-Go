@@ -22,7 +22,7 @@ func OpenDB() {
 		os.Getenv("DB_PASS"),
 		os.Getenv("DB_HOST"),
 		os.Getenv("DB_PORT"),
-		os.Getenv("DB_DATABASE"))
+		os.Getenv("DB_NAME"))
 
 	mysqlConn, err := gorm.Open(mysql.Open(connString), &gorm.Config{})
 	if err != nil {

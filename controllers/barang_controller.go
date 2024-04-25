@@ -23,12 +23,11 @@ TO DO:
 */
 func CreateBarang(c *fiber.Ctx) error {
 	type AddBarangReq struct {
-		Kode       string `json:"kode_barang"`
-		Nama       string `json:"nama_barang"`
-		HargaPokok int    `json:"harga_pokok"`
-		HargaJual  int    `json:"harga_jual"`
-		Tipe       string `json:"tipe_barang"`
-		Stok       int    `json:"stok"`
+		Nama       string  `json:"nama"`
+		HargaPokok float64 `json:"harga_pokok"`
+		HargaJual  float64 `json:"harga_jual"`
+		Tipe       string  `json:"tipe_barang"`
+		Stok       uint    `json:"stok"`
 	}
 	req := new(AddBarangReq)
 
@@ -40,7 +39,13 @@ func CreateBarang(c *fiber.Ctx) error {
 
 	}
 
-	barang, errCreateBarang := utils.CreateBarang(model.Barang{})
+	barang, errCreateBarang := utils.CreateBarang(model.Barang{
+		Nama:       req.Nama,
+		HargaPokok: req.HargaPokok,
+		HargaJual:  req.HargaJual,
+		TipeBarang: req.Tipe,
+		Stok:       req.Stok,
+	})
 
 	if errCreateBarang != nil {
 		logrus.Printf("Terjadi error : %s\n", errCreateBarang.Error())

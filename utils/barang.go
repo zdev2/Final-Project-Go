@@ -21,9 +21,7 @@ func GetBarang() ([]model.Barang, error) {
 
 func GetBarangByID(id uint) (model.Barang, error) {
 	barang := model.Barang{
-		Model: model.Model{
-			ID: id,
-		},
+		ID: id,
 	}
 	return barang.GetByID(config.Mysql.DB)
 }

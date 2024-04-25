@@ -3,6 +3,7 @@ package model
 import "gorm.io/gorm"
 
 type Barang struct {
+	ID         uint    `gorm:"primarykey" json:"id"`
 	KodeBarang string  `json:"kode_barang"`
 	Nama       string  `json:"nama"`
 	HargaPokok float64 `json:"harga_pokok"`
@@ -46,7 +47,7 @@ func (br *Barang) GetByID(db *gorm.DB) (Barang, error) {
 
 	err := db.
 		Model(Barang{}).
-		Where("id = ?", br.Model.ID).
+		Where("id = ?", br.ID).
 		Take(&res).
 		Error
 
@@ -60,7 +61,7 @@ func (br *Barang) GetByID(db *gorm.DB) (Barang, error) {
 func (br *Barang) Update(db *gorm.DB) error {
 	err := db.
 		Model(&Barang{}).
-		Where("id = ?", br.Model.ID).
+		Where("id = ?", br.ID).
 		Updates(&br).
 		Error
 
