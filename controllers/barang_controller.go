@@ -23,14 +23,14 @@ TO DO:
 */
 func CreateBarang(c *fiber.Ctx) error {
 	type AddBarangReq struct {
-		Nama       string  `json:"nama"`
+		Kode       string  `json:"kode_barang"`
+		Nama       string  `json:"nama_barang"`
 		HargaPokok float64 `json:"harga_pokok"`
 		HargaJual  float64 `json:"harga_jual"`
 		Tipe       string  `json:"tipe_barang"`
 		Stok       uint    `json:"stok"`
 	}
 	req := new(AddBarangReq)
-
 	if err := c.BodyParser(req); err != nil {
 		return c.Status(fiber.StatusBadRequest).
 			JSON(map[string]any{
@@ -38,8 +38,10 @@ func CreateBarang(c *fiber.Ctx) error {
 			})
 
 	}
+	barang := model.Barang{}
 
 	barang, errCreateBarang := utils.CreateBarang(model.Barang{
+		KodeBarang: req.Kode,
 		Nama:       req.Nama,
 		HargaPokok: req.HargaPokok,
 		HargaJual:  req.HargaJual,
@@ -90,7 +92,7 @@ func GetBarangByID(c *fiber.Ctx) error {
 		)
 	}
 
-	dataBarang, err := utils.GetBarangByID(uint(barangID))
+	dataBarang, err := utils.GetBarangByID(uint64(barangID))
 	if err != nil {
 		if err.Error() == "record not found" {
 			return c.Status(fiber.StatusNotFound).JSON(

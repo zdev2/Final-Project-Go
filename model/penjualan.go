@@ -1,7 +1,9 @@
 package model
 
+import "gorm.io/gorm"
+
 type Penjualan struct {
-	ID           uint    `gorm:"primarykey" json:"id"`
+	ID           string  `gorm:"primarykey" json:"id"`
 	Kode_invoice string  `json:"kode_invoice"`
 	Nama_pembeli string  `json:"nama_pembeli"`
 	Subtotal     float64 `json:"subtotal"`
@@ -10,4 +12,32 @@ type Penjualan struct {
 	Total        float64 `json:"total"`
 	Model
 	Created_by string `json:"created_by"`
+}
+
+func (pj *Penjualan) CreatePenjualan(db *gorm.DB) error {
+	err := db.
+		Model(Penjualan{}).
+		Create(&pj).
+		Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (pj *Penjualan) GetAll(db *gorm.DB) ([]Penjualan, error) {
+	res := []Penjualan{}
+
+	err := db.
+		Model(Penjualan{}).
+		Find(&res).
+		Error
+
+	if err != nil {
+		return []Penjualan{}, err
+	}
+
+	return res, nil
 }
