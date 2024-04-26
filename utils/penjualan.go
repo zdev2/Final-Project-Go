@@ -18,3 +18,5 @@ func GetPenjualan() ([]model.Penjualan, error) {
 	var penjualan model.Penjualan
 	return penjualan.GetAll(config.Mysql.DB)
 }
+
+func GetPenjualanByID(id uint64) (model.)

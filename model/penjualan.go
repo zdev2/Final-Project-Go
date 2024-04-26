@@ -14,6 +14,10 @@ type Penjualan struct {
 	Created_by string `json:"created_by"`
 }
 
+type details struct {
+	Penjualan
+}
+
 func (pj *Penjualan) CreatePenjualan(db *gorm.DB) error {
 	err := db.
 		Model(Penjualan{}).

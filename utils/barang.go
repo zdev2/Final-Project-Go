@@ -50,3 +50,25 @@ func UpdateBarang(id uint, barang model.Barang) (model.Barang, error) {
 // 	"tipe_barang":"MAKANAN",
 // 	"stok":20
 //   }
+
+// "data": {
+//     "id": 1,
+//     "kode_invoice": "INV/1",
+//     "nama pembeli": "asep",
+//     "subtotal": 20000,
+//     "kode_diskon": null,
+//     "diskon": 0,
+//     "total": 20000,
+//     "created_at": "2023-10-31 00:00:00",
+//     "updated_at": "2023-10-31 00:00:00",
+//     "deleted_at": null,
+//     "created_by": "SYSTEM",
+//     "item_penjualan": [
+//       {
+//         "kode_barang": "MI-1",
+//         "jumlah": 1,
+//         "subtotal": 10000,
+//         "created_at": "2023-10-31 00:00:00",
+//         "updated_at": "2023-10-31 00:00:00",
+//         "deleted_at": null
+//       },

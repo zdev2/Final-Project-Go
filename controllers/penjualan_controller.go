@@ -74,9 +74,25 @@ func GetPenjualanByID(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(
 			map[string]any{
 				"message": "Invalid ID",
-			}
+			},
 		)
 	}
 
 	dataPenjualan, err := utils.GetPenjualanByID(uint64(penjualanID))
+	if err != nil {
+		if err.Error() == "record not found" {
+			return c.Status(fiber.StatusNotFound).JSON(
+				map[string]any{
+					"message": "ID Not Found",
+				},
+			)
+		}
+	}
+
+	return c.Status(fiber.StatusOK).JSON(
+		map[string]any{
+			"data":    dataPenjualan,
+			"message": "Success",
+		},
+	)
 }
