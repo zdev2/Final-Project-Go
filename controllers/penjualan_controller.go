@@ -3,6 +3,7 @@ package controllers
 import (
 	"kelompok3/toko-retail/model"
 	"kelompok3/toko-retail/utils"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
@@ -65,4 +66,17 @@ func GetPenjualan(c *fiber.Ctx) error {
 			"message": "Success",
 		},
 	)
+}
+
+func GetPenjualanByID(c *fiber.Ctx) error {
+	penjualanID, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(
+			map[string]any{
+				"message": "Invalid ID",
+			}
+		)
+	}
+
+	dataPenjualan, err := utils.GetPenjualanByID(uint64(penjualanID))
 }
