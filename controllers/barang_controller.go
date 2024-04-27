@@ -38,7 +38,6 @@ func CreateBarang(c *fiber.Ctx) error {
 			})
 
 	}
-	barang := model.Barang{}
 
 	barang, errCreateBarang := utils.CreateBarang(model.Barang{
 		KodeBarang: req.Kode,
@@ -59,8 +58,7 @@ func CreateBarang(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).
 		JSON(map[string]any{
-			"message": "Berhasil Menambahkan Barang",
-			"Barang":  barang,
+			"data": barang,
 		})
 }
 
@@ -76,8 +74,7 @@ func GetBarang(c *fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusOK).JSON(
 		map[string]any{
-			"data":    dataBarang,
-			"message": "Success",
+			"data": dataBarang,
 		},
 	)
 }
@@ -105,8 +102,7 @@ func GetBarangByID(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(
 		map[string]any{
-			"data":    dataBarang,
-			"message": "Success",
+			"data": dataBarang,
 		},
 	)
 }
@@ -135,8 +131,34 @@ func UpdateBarang(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(
 		map[string]any{
-			"data":    dataBarang,
-			"message": "Success",
+			"data": dataBarang,
 		},
+	)
+}
+
+func DeleteBarang(c *fiber.Ctx) error {
+	barangID, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(
+			map[string]any{
+				"message": "Invalid ID",
+			},
+		)
+	}
+
+	err = utils.DeleteBarang(uint64(barangID))
+	if err != nil {
+		if err.Error() == "record not found" {
+			return c.Status(fiber.StatusNotFound).JSON(
+				map[string]any{
+					"message": "ID not found",
+				},
+			)
+		}
+	}
+
+	return c.Status(fiber.StatusOK).JSON(map[string]any{
+		"message": "Deleted Successfuly",
+	},
 	)
 }

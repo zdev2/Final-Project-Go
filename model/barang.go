@@ -76,3 +76,17 @@ func (br *Barang) Update(db *gorm.DB) error {
 
 	return nil
 }
+
+func (br *Barang) Delete(db *gorm.DB) error {
+	err := db.
+		Model(&Barang{}).
+		Where("id = ?", br.ID).
+		Delete(&br).
+		Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

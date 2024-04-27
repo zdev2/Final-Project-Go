@@ -12,9 +12,8 @@ import (
 func InsertPenjualanData(c *fiber.Ctx) error {
 	type AddPenjualanReq struct {
 		NamaPembeli string  `json:"nama"`
-		ID          string  `json:"id"`
+		ID          uint64  `json:"id"`
 		Subtotal    float64 `json:"subtotal"`
-		KodeDiskon  string  `json:"kode_diskon"`
 		Total       float64 `json:"total"`
 	}
 	req := new(AddPenjualanReq)
@@ -30,7 +29,6 @@ func InsertPenjualanData(c *fiber.Ctx) error {
 	penjualan, errInsertPenjualan := utils.InsertPenjualanData(model.Penjualan{
 		Nama_pembeli: req.NamaPembeli,
 		ID:           req.ID,
-		Kode_diskon:  req.KodeDiskon,
 		Subtotal:     req.Subtotal,
 		Total:        req.Total,
 	})

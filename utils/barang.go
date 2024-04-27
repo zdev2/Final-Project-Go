@@ -43,6 +43,13 @@ func UpdateBarang(id uint, barang model.Barang) (model.Barang, error) {
 	return barang, err
 }
 
+func DeleteBarang(id uint64) error {
+	barang := model.Barang{
+		ID: id,
+	}
+	return barang.Delete(config.Mysql.DB)
+}
+
 // {
 // 	"nama_barang":"nasi",
 // 	"harga_pokok":3000,

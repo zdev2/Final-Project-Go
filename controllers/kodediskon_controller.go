@@ -56,8 +56,7 @@ func GetKodeDiskon(c *fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusOK).JSON(
 		map[string]any{
-			"data":    dataDiskon,
-			"message": "Success",
+			"data": dataDiskon,
 		},
 	)
 }
@@ -78,8 +77,7 @@ func GetByCode(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(
 		map[string]any{
-			"data":    dataDiskon,
-			"message": "Success",
+			"data": dataDiskon,
 		},
 	)
 }
@@ -107,8 +105,7 @@ func GetDiskonByID(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(
 		map[string]any{
-			"data":    dataDiskon,
-			"message": "Success",
+			"data": dataDiskon,
 		},
 	)
 }
@@ -137,8 +134,7 @@ func UpdateCode(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(
 		map[string]any{
-			"data":    dataDiskon,
-			"message": "Success",
+			"data": dataDiskon,
 		},
 	)
 }
