@@ -11,13 +11,13 @@ type Penjualan struct {
 	// Diskon       float64 `json:"diskon"`
 	Total float64 `json:"total"`
 	Model
-	Diskon
+	// Diskon
 	Created_by string `json:"created_by"`
 }
 
-type details struct {
-	Penjualan
-}
+// type details struct {
+// 	Penjualan
+// }
 
 func (pj *Penjualan) CreatePenjualan(db *gorm.DB) error {
 	err := db.

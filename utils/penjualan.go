@@ -19,9 +19,9 @@ func GetPenjualan() ([]model.Penjualan, error) {
 	return penjualan.GetAll(config.Mysql.DB)
 }
 
-func GetPenjualanByID(id uint64) (model.Penjualan, error) {
-	penjualan := model.Penjualan{
-		ID: id,
-	}
-	return penjualan.GetByID(config.Mysql.DB)
-}
+// func GetPenjualanByID(id uint) (model.Penjualan, error) {
+// 	penjualan := model.Penjualan{
+// 		ID: id,
+// 	}
+// 	return penjualan.GetByID(config.Mysql.DB)
+// }
