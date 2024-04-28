@@ -48,6 +48,11 @@ func CreateBarang(c *fiber.Ctx) error {
 		Stok:       req.Stok,
 	})
 
+	utils.CreateHistory(&model.Details{
+		Barang:  barang,
+		Histori: []model.HistoriASKM{},
+	}, "initialiasi stok", int(req.Stok), "IN")
+
 	if errCreateBarang != nil {
 		logrus.Printf("Terjadi error : %s\n", errCreateBarang.Error())
 		return c.Status(fiber.StatusInternalServerError).

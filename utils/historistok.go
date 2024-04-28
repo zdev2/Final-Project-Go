@@ -2,7 +2,7 @@ package utils
 
 import "kelompok3/toko-retail/model"
 
-func AddHistory(p *model.Details, keterangan string, amount int, status string) {
+func CreateHistory(p *model.Details, keterangan string, amount int, status string) (*model.HistoriASKM, error) {
 	history := model.Histori{
 		ID_barang:  uint(p.ID),
 		Amount:     amount,
