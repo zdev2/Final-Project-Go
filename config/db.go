@@ -16,7 +16,7 @@ type MysqlDB struct {
 
 var Mysql MysqlDB
 
-func OpenDB() {
+func OpenDB() (*gorm.DB, error) {
 	connString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASS"),
@@ -38,6 +38,7 @@ func OpenDB() {
 		log.Fatal(err)
 	}
 
+	return mysqlConn, err
 }
 
 func autoMigrate(db *gorm.DB) error {
