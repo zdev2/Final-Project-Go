@@ -1,6 +1,8 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Penjualan struct {
 	ID           uint64  `gorm:"primarykey" json:"id"`
@@ -42,6 +44,22 @@ func (pj *Penjualan) GetAll(db *gorm.DB) ([]Penjualan, error) {
 
 	if err != nil {
 		return []Penjualan{}, err
+	}
+
+	return res, nil
+}
+
+func (pj *Penjualan) GetPByID(db *gorm.DB) (Penjualan, error) {
+	res := Penjualan{}
+
+	err := db.
+		Model(Penjualan{}).
+		Where("id = ?", pj.ID).
+		Take(&res).
+		Error
+
+	if err != nil {
+		return Penjualan{}, err
 	}
 
 	return res, nil

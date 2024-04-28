@@ -3,6 +3,7 @@ package controllers
 import (
 	"kelompok3/toko-retail/model"
 	"kelompok3/toko-retail/utils"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
@@ -65,31 +66,31 @@ func GetPenjualan(c *fiber.Ctx) error {
 	)
 }
 
-// func GetPenjualanByID(c *fiber.Ctx) error {
-// 	penjualanID, err := strconv.Atoi(c.Params("id"))
-// 	if err != nil {
-// 		return c.Status(fiber.StatusBadRequest).JSON(
-// 			map[string]any{
-// 				"message": "Invalid ID",
-// 			},
-// 		)
-// 	}
+func GetPenjualanByID(c *fiber.Ctx) error {
+	penjualanID, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(
+			map[string]any{
+				"message": "Invalid ID",
+			},
+		)
+	}
 
-// 	dataPenjualan, err := utils.GetPenjualanByID(uint64(penjualanID))
-// 	if err != nil {
-// 		if err.Error() == "record not found" {
-// 			return c.Status(fiber.StatusNotFound).JSON(
-// 				map[string]any{
-// 					"message": "ID Not Found",
-// 				},
-// 			)
-// 		}
-// 	}
+	dataPenjualan, err := utils.GetPenjualanByID(uint64(penjualanID))
+	if err != nil {
+		if err.Error() == "record not found" {
+			return c.Status(fiber.StatusNotFound).JSON(
+				map[string]any{
+					"message": "ID Not Found",
+				},
+			)
+		}
+	}
 
-// 	return c.Status(fiber.StatusOK).JSON(
-// 		map[string]any{
-// 			"data":    dataPenjualan,
-// 			"message": "Success",
-// 		},
-// 	)
-// }
+	return c.Status(fiber.StatusOK).JSON(
+		map[string]any{
+			"data":    dataPenjualan,
+			"message": "Success",
+		},
+	)
+}

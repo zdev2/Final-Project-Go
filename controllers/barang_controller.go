@@ -46,11 +46,19 @@ func CreateBarang(c *fiber.Ctx) error {
 		HargaJual:  req.HargaJual,
 		TipeBarang: req.Tipe,
 		Stok:       req.Stok,
+		CreatedBy:  "SYSTEM",
 	})
 
-	utils.CreateHistory(&model.Details{
-		Barang:  barang,
-		Histori: []model.HistoriASKM{},
+	utils.CreateHistori(&model.Details{
+		ID:         barang.ID,
+		KodeBarang: req.Kode,
+		Nama:       req.Nama,
+		HargaPokok: req.HargaPokok,
+		HargaJual:  req.HargaJual,
+		TipeBarang: req.Tipe,
+		Stok:       req.Stok,
+		CreatedBy:  "SYSTEM",
+		Histori:    []model.HistoriASKM{},
 	}, "initialiasi stok", int(req.Stok), "IN")
 
 	if errCreateBarang != nil {
@@ -167,3 +175,5 @@ func DeleteBarang(c *fiber.Ctx) error {
 	},
 	)
 }
+
+//DROP TABLE `penjualans`, `models`, `historis`, `diskons`, `barangs`

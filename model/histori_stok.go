@@ -36,3 +36,17 @@ func (hs *Histori) Create(db *gorm.DB) error {
 
 	return nil
 }
+
+func (hs *Histori) GetIDBarang(db *gorm.DB) ([]Histori, error) {
+	res := []Histori{}
+
+	err := db.
+		Model(Histori{}).
+		Where("id_barang = ?", hs.ID_barang).Find(&res).Error
+
+	if err != nil {
+		return []Histori{}, err
+	}
+
+	return res, err
+}

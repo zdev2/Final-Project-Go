@@ -33,7 +33,28 @@ func GetBarangByID(id uint64) (model.Details, error) {
 	barang := model.Barang{
 		ID: id,
 	}
-	return barang.GetByID(config.Mysql.DB)
+	barang, err := barang.GetByID(config.Mysql.DB)
+	if err != nil {
+		return model.Details{}, err
+	}
+
+	histori, err := GetHistoriByIDBarang(barang.ID)
+	if err != nil {
+		return model.Details{}, err
+	}
+
+	details := model.Details{
+		ID:         barang.ID,
+		KodeBarang: barang.KodeBarang,
+		Nama:       barang.Nama,
+		HargaPokok: barang.HargaPokok,
+		HargaJual:  barang.HargaJual,
+		TipeBarang: barang.TipeBarang,
+		Stok:       barang.Stok,
+		Model:      barang.Model,
+		Histori:    histori,
+	}
+	return details, nil
 }
 
 func UpdateBarang(id uint, barang model.Barang) (model.Barang, error) {
