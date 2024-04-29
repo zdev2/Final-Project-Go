@@ -28,7 +28,7 @@ func InsertPenjualanData(c *fiber.Ctx) error {
 
 	}
 
-	penjualan, errInsertPenjualan := utils.InsertPenjualanData(model.Penjualan{
+	_, errInsertPenjualan := utils.InsertPenjualanData(model.Penjualan{
 		Nama_pembeli: req.NamaPembeli,
 		ID:           req.ID,
 	})
