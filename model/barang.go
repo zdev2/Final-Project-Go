@@ -56,7 +56,8 @@ func (br *Barang) GetAll(db *gorm.DB) ([]Barang, error) {
 	res := []Barang{}
 
 	err := db.
-		Model(Barang{}).
+		Model(Barang{}).Order("created_at desc").
+		Limit(50).
 		Find(&res).
 		Error
 

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"kelompok3/toko-retail/model"
 	"kelompok3/toko-retail/utils"
 	"strconv"
 
@@ -9,37 +10,36 @@ import (
 )
 
 func InsertPenjualanData(c *fiber.Ctx) error {
-	// type AddPenjualanReq struct {
-	// 	NamaPembeli   string  `json:"nama"`
-	// 	ID            uint64  `json:"id"`
-	// 	Subtotal      float64 `json:"subtotal"`
-	// 	Total         float64 `json:"total"`
-	// 	ItemPenjualan model.CreateP
-	// }
-	// req := new(AddPenjualanReq)
+	type AddPenjualanReq struct {
+		NamaPembeli   string `json:"nama"`
+		ID            uint64 `json:"id"`
+		ItemPenjualan []struct {
+			Kode   string `json:"kode_barang"`
+			Jumlah uint   `json:"jumlah"`
+		} `json:"item_penjualan"`
+	}
+	req := new(AddPenjualanReq)
 
-	// if err := c.BodyParser(req); err != nil {
-	// 	return c.Status(fiber.StatusBadRequest).
-	// 		JSON(map[string]any{
-	// 			"message": "Invalid Body",
-	// 		})
+	if err := c.BodyParser(req); err != nil {
+		return c.Status(fiber.StatusBadRequest).
+			JSON(map[string]any{
+				"message": "Invalid Body",
+			})
 
-	// }
+	}
 
-	// penjualan, errInsertPenjualan := utils.InsertPenjualanData(model.Penjualan{
-	// 	Nama_pembeli: req.NamaPembeli,
-	// 	ID:           req.ID,
-	// 	Subtotal:     req.Subtotal,
-	// 	Total:        req.Total,
-	// })
+	penjualan, errInsertPenjualan := utils.InsertPenjualanData(model.Penjualan{
+		Nama_pembeli: req.NamaPembeli,
+		ID:           req.ID,
+	})
 
-	// if errInsertPenjualan != nil {
-	// 	logrus.Printf("Terjadi error : %s\n", errInsertPenjualan.Error())
-	// 	return c.Status(fiber.StatusInternalServerError).
-	// 		JSON(map[string]any{
-	// 			"message": "Server Error",
-	// 		})
-	// }
+	if errInsertPenjualan != nil {
+		logrus.Printf("Terjadi error : %s\n", errInsertPenjualan.Error())
+		return c.Status(fiber.StatusInternalServerError).
+			JSON(map[string]any{
+				"message": "Server Error",
+			})
+	}
 
 	return c.Status(fiber.StatusOK).
 		JSON(map[string]any{
