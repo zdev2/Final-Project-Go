@@ -23,6 +23,7 @@ func GetDiskonByCode(s string) (model.Diskon, error) {
 	diskon := model.Diskon{
 		KodeDiskon: s,
 	}
+
 	return diskon.GetByCode(config.Mysql.DB)
 }
 
@@ -33,9 +34,26 @@ func GetDiskonByID(id uint) (model.Diskon, error) {
 	return Diskon.GetByID(config.Mysql.DB)
 }
 
-func UpdateDiskon(id uint, Diskon model.Diskon) (model.Diskon, error) {
-	Diskon.UpdatedAt = time.Now()
-	err := Diskon.Create(config.Mysql.DB)
+func UpdateDiskon(id uint, updatedDiskon model.Diskon) (model.Diskon, error) {
+	existingDiskon := model.Diskon{ID: id}
+	if err := config.Mysql.DB.First(&existingDiskon).Error; err != nil {
+		return model.Diskon{}, err
+	}
 
-	return Diskon, err
+	existingDiskon.Amount = updatedDiskon.Amount
+	existingDiskon.Type = updatedDiskon.Type
+	existingDiskon.UpdatedAt = time.Now()
+
+	if err := config.Mysql.DB.Save(&existingDiskon).Error; err != nil {
+		return model.Diskon{}, err
+	}
+
+	return existingDiskon, nil
+}
+
+func DeleteKode(id uint64) error {
+	Kode := model.Diskon{
+		ID: uint(id),
+	}
+	return Kode.Delete(config.Mysql.DB)
 }

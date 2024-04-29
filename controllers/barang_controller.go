@@ -29,6 +29,11 @@ func CreateBarang(c *fiber.Ctx) error {
 		HargaJual  float64 `json:"harga_jual"`
 		Tipe       string  `json:"tipe_barang"`
 		Stok       uint    `json:"stok"`
+		Histori    struct {
+			Amount     int    `json:"amount"`
+			Status     string `json:"status"`
+			Keterangan string `json:"keterangan"`
+		} `json:"histori_stok"`
 	}
 	req := new(AddBarangReq)
 	if err := c.BodyParser(req); err != nil {
@@ -49,7 +54,7 @@ func CreateBarang(c *fiber.Ctx) error {
 		CreatedBy:  "SYSTEM",
 	})
 
-	utils.CreateHistori(&model.Details{
+	utils.CreateHistoriBarang(&model.Details{
 		ID:         barang.ID,
 		KodeBarang: req.Kode,
 		Nama:       req.Nama,
@@ -59,7 +64,7 @@ func CreateBarang(c *fiber.Ctx) error {
 		Stok:       req.Stok,
 		CreatedBy:  "SYSTEM",
 		Histori:    []model.HistoriASKM{},
-	}, "initialiasi stok", int(req.Stok), "IN")
+	}, req.Histori.Keterangan, int(req.Stok), req.Histori.Status)
 
 	if errCreateBarang != nil {
 		logrus.Printf("Terjadi error : %s\n", errCreateBarang.Error())
@@ -71,7 +76,8 @@ func CreateBarang(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).
 		JSON(map[string]any{
-			"data": barang,
+			"id":          barang.ID,
+			"kode_barang": barang.KodeBarang,
 		})
 }
 
@@ -144,7 +150,8 @@ func UpdateBarang(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(
 		map[string]any{
-			"data": dataBarang,
+			"id":          dataBarang.ID,
+			"kode_barang": dataBarang.KodeBarang,
 		},
 	)
 }

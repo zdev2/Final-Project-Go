@@ -10,8 +10,8 @@ func RouteRetail(app *fiber.App) {
 	retailGroup.Get("/barang/:id", GetBarangByID)
 	retailGroup.Post("/barang", CreateBarang)
 	retailGroup.Put("/barang/:id", UpdateBarang)
-	// retailGroup.Put("/barang/stok/:id")
-	// retailGroup.Delete("/barang/:id",)
+	// retailGroup.Put("/barang/stok/:id", )
+	retailGroup.Delete("/barang/:id", DeleteBarang)
 
 	//Penjualan
 	retailGroup.Get("/penjualan", GetPenjualan)
@@ -20,7 +20,9 @@ func RouteRetail(app *fiber.App) {
 
 	//Kode Diskon
 	retailGroup.Get("/kode-diskon", GetKodeDiskon)
-	retailGroup.Get("/kode-diskon/:id", GetDiskonByID)
 	retailGroup.Get("/kode-diskon/get-by-code", GetByCode)
+	retailGroup.Get("/kode-diskon/:id", GetDiskonByID)
 	retailGroup.Post("/kode-diskon", CreateKodeDiskon)
+	retailGroup.Put("/kode-diskon/:id", UpdateCode)
+	retailGroup.Delete("/kode-diskon/:id", DeleteKode)
 }

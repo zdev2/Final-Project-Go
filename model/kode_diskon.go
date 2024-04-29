@@ -42,9 +42,8 @@ func (kd *Diskon) GetByCode(db *gorm.DB) (Diskon, error) {
 	res := Diskon{}
 
 	err := db.
-		Model(Diskon{}).
 		Where("kode_diskon = ?", kd.KodeDiskon).
-		Take(&res).
+		First(&res).
 		Error
 
 	if err != nil {
@@ -68,4 +67,18 @@ func (kd *Diskon) GetByID(db *gorm.DB) (Diskon, error) {
 	}
 
 	return res, nil
+}
+
+func (kd *Diskon) Delete(db *gorm.DB) error {
+	err := db.
+		Model(&Diskon{}).
+		Where("id = ?", kd.ID).
+		Delete(&kd).
+		Error
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"kelompok3/toko-retail/model"
 	"kelompok3/toko-retail/utils"
 	"strconv"
@@ -25,7 +26,11 @@ func CreateKodeDiskon(c *fiber.Ctx) error {
 
 	}
 
-	diskon, errDiskon := utils.CreateKodeDiskon(model.Diskon{})
+	diskon, errDiskon := utils.CreateKodeDiskon(model.Diskon{
+		KodeDiskon: req.Kode_diskon,
+		Amount:     req.Amount,
+		Type:       req.Type,
+	})
 
 	if errDiskon != nil {
 		logrus.Printf("Terjadi error : %s\n", errDiskon.Error())
@@ -37,8 +42,7 @@ func CreateKodeDiskon(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).
 		JSON(map[string]any{
-			"message": "Berhasil Menambahkan Kode Diskon",
-			"data":    diskon,
+			"data": diskon,
 		})
 
 }
@@ -62,9 +66,10 @@ func GetKodeDiskon(c *fiber.Ctx) error {
 }
 
 func GetByCode(c *fiber.Ctx) error {
-	DiskonCode := c.Params("kode-diskon")
+	DiskonCode := c.Query("kode-diskon")
+	fmt.Println("Query Parameter: ", DiskonCode)
 
-	dataDiskon, err := utils.GetDiskonByCode(string(DiskonCode))
+	dataDiskon, err := utils.GetDiskonByCode(DiskonCode)
 	if err != nil {
 		if err.Error() == "record not found" {
 			return c.Status(fiber.StatusNotFound).JSON(
@@ -136,5 +141,32 @@ func UpdateCode(c *fiber.Ctx) error {
 		map[string]any{
 			"data": dataDiskon,
 		},
+	)
+}
+
+func DeleteKode(c *fiber.Ctx) error {
+	KodeID, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(
+			map[string]any{
+				"message": "Invalid ID",
+			},
+		)
+	}
+
+	err = utils.DeleteKode(uint64(KodeID))
+	if err != nil {
+		if err.Error() == "record not found" {
+			return c.Status(fiber.StatusNotFound).JSON(
+				map[string]any{
+					"message": "ID not found",
+				},
+			)
+		}
+	}
+
+	return c.Status(fiber.StatusOK).JSON(map[string]any{
+		"message": "Deleted Successfuly",
+	},
 	)
 }

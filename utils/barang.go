@@ -8,10 +8,10 @@ import (
 	"time"
 )
 
-func CreateBarang(data model.Barang) (model.Barang, error) {
+func CreateBarang(data model.Barang) (model.CreateB, error) {
 	data.CreatedAt = time.Now()
 	data.UpdatedAt = time.Now()
-	err := data.Create(config.Mysql.DB)
+	data.Create(config.Mysql.DB)
 	if data.TipeBarang == "MAKANAN" {
 		data.KodeBarang = fmt.Sprintf("MA-%v", strconv.FormatUint(uint64(data.ID), 10))
 	} else if data.TipeBarang == "MINUMAN" {
@@ -21,7 +21,23 @@ func CreateBarang(data model.Barang) (model.Barang, error) {
 	}
 	data.Update(config.Mysql.DB)
 
-	return data, err
+	histori, err := GetASK(data.ID)
+	if err != nil {
+		return model.CreateB{}, err
+	}
+
+	createb := model.CreateB{
+		ID:         data.ID,
+		KodeBarang: data.KodeBarang,
+		Nama:       data.Nama,
+		HargaPokok: data.HargaPokok,
+		HargaJual:  data.HargaJual,
+		TipeBarang: data.TipeBarang,
+		Stok:       data.Stok,
+		Histori:    histori,
+	}
+
+	return createb, err
 }
 
 func GetBarang() ([]model.Barang, error) {
@@ -38,7 +54,7 @@ func GetBarangByID(id uint64) (model.Details, error) {
 		return model.Details{}, err
 	}
 
-	histori, err := GetHistoriByIDBarang(barang.ID)
+	histori, err := GetASKMByIDBarang(barang.ID)
 	if err != nil {
 		return model.Details{}, err
 	}
@@ -58,8 +74,8 @@ func GetBarangByID(id uint64) (model.Details, error) {
 }
 
 func UpdateBarang(id uint, barang model.Barang) (model.Barang, error) {
-	barang.UpdatedAt = time.Now()
-	err := barang.Create(config.Mysql.DB)
+
+	err := barang.Update(config.Mysql.DB)
 
 	return barang, err
 }
