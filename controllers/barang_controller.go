@@ -29,6 +29,7 @@ func CreateBarang(c *fiber.Ctx) error {
 		HargaJual  float64 `json:"harga_jual"`
 		Tipe       string  `json:"tipe_barang"`
 		Stok       uint    `json:"stok"`
+		CreateBy   string  `json:"created_by"`
 		Histori    struct {
 			Amount     int    `json:"amount"`
 			Status     string `json:"status"`
@@ -51,7 +52,7 @@ func CreateBarang(c *fiber.Ctx) error {
 		HargaJual:  req.HargaJual,
 		TipeBarang: req.Tipe,
 		Stok:       req.Stok,
-		CreatedBy:  "SYSTEM",
+		CreatedBy:  req.CreateBy,
 	})
 
 	utils.CreateHistoriBarang(&model.Details{
