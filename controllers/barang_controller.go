@@ -63,7 +63,7 @@ func CreateBarang(c *fiber.Ctx) error {
 		HargaJual:  req.HargaJual,
 		TipeBarang: req.Tipe,
 		Stok:       req.Stok,
-		CreatedBy:  "SYSTEM",
+		CreatedBy:  req.CreateBy,
 		Histori:    []model.HistoriASKM{},
 	}, req.Histori.Keterangan, int(req.Stok), req.Histori.Status)
 

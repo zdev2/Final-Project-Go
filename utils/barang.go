@@ -11,6 +11,9 @@ import (
 func CreateBarang(data model.Barang) (model.CreateB, error) {
 	data.CreatedAt = time.Now()
 	data.UpdatedAt = time.Now()
+	if data.CreatedBy == "" {
+		data.CreatedBy = "SYSTEM"
+	}
 	data.Create(config.Mysql.DB)
 	if data.TipeBarang == "MAKANAN" {
 		data.KodeBarang = fmt.Sprintf("MA-%v", strconv.FormatUint(uint64(data.ID), 10))
@@ -19,6 +22,7 @@ func CreateBarang(data model.Barang) (model.CreateB, error) {
 	} else {
 		data.KodeBarang = fmt.Sprintf("L-%v", strconv.FormatUint(uint64(data.ID), 10))
 	}
+
 	data.Update(config.Mysql.DB)
 
 	histori, err := GetASK(data.ID)
