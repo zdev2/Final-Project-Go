@@ -184,4 +184,34 @@ func DeleteBarang(c *fiber.Ctx) error {
 	)
 }
 
+func UpdateStok(c *fiber.Ctx) error {
+	barangID, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid ID",
+		})
+	}
+
+	var updatedBarang model.Barang
+	if err := c.BodyParser(&updatedBarang); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Invalid request body",
+		})
+	}
+
+	dataBarang, err := utils.UpdateBarang(uint(barangID), updatedBarang)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Failed to update item",
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(
+		map[string]any{
+			"id":          dataBarang.ID,
+			"kode_barang": dataBarang.KodeBarang,
+		},
+	)
+}
+
 //DROP TABLE `penjualans`, `models`, `historis`, `diskons`, `barangs`

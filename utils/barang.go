@@ -78,9 +78,8 @@ func GetBarangByID(id uint64) (model.Details, error) {
 }
 
 func UpdateBarang(id uint, barang model.Barang) (model.Barang, error) {
-
+	barang.ID = uint64(id)
 	err := barang.Update(config.Mysql.DB)
-
 	return barang, err
 }
 
