@@ -15,7 +15,7 @@ func RouteRetail(app *fiber.App) {
 
 	//Penjualan
 	retailGroup.Get("/penjualan", GetPenjualan)
-	retailGroup.Get("/penjualan/:id")
+	retailGroup.Get("/penjualan/:id", GetPenjualanByID)
 	retailGroup.Post("/penjualan", InsertPenjualanData)
 
 	//Kode Diskon

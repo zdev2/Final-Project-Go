@@ -151,8 +151,7 @@ func UpdateBarang(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(
 		map[string]any{
-			"id":          dataBarang.ID,
-			"kode_barang": dataBarang.KodeBarang,
+			"id": dataBarang.ID,
 		},
 	)
 }
